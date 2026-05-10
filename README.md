@@ -5,7 +5,9 @@ This project is designed to be ran on a ubuntu machine, hyper-v or wsl2 with ubu
 
 ---------- Installation ----------
 Download the installation files
-cd into the root (where this README is)
+or:
+git clone https://github.com/Atomiek/OldLanarkshire.git
+cd into the directory OldLanrkshire (where this README is)
 sudo chmod +x setup.sh
 ./setup.sh
 
