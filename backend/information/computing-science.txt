@@ -1,0 +1,167 @@
+Computing science info below this comment: 
+
+
+-- Topic: Algorithms
+Definition: A step-by-step procedure for solving a problem or performing a computation.
+Examples: Binary search: divide sorted array in half each step (O(log n)). Merge sort: divide-and-conquer sort (O(n log n)).
+Use-case: Choose binary search for membership queries on sorted arrays; use merge sort for stable, large-data sorting.
+
+-- Topic: Data Structures
+Definition: Organized formats for storing and managing data.
+Examples: Array (contiguous, O(1) index), Linked list (dynamic, O(n) search), Hash table (average O(1) lookup), Binary search tree (ordered, O(log n) average).
+Advice: Use hash tables for fast key-value access; use trees for ordered traversals.
+
+-- Topic: Time Complexity
+Definition: Measure of algorithm running time as function of input size n.
+Common notations: O(1), O(log n), O(n), O(n log n), O(n^2), O(2^n).
+Rule-of-thumb: Prefer algorithms with lower asymptotic complexity for large n.
+
+-- Topic: Space Complexity
+Definition: Amount of memory required by an algorithm as input size grows.
+Examples: In-place algorithms: O(1) extra space. Recursion may add O(depth) call-stack space.
+
+-- Topic: Big-O Examples
+List:
+
+    Constant: O(1) — e.g., array access.
+    Logarithmic: O(log n) — e.g., binary search.
+    Linear: O(n) — e.g., single loop.
+    Linearithmic: O(n log n) — e.g., efficient sorts.
+    Quadratic: O(n^2) — e.g., nested loops.
+    Exponential: O(2^n) — e.g., naive subset enumeration.
+
+-- Topic: Sorting Algorithms
+Definition: Algorithms to order elements.
+Examples: Quick sort (average O(n log n), worst O(n^2)), Merge sort (O(n log n), stable), Heap sort (O(n log n), in-place).
+When to use: Merge sort for stable external sorts; quicksort for in-memory average-case speed.
+
+-- Topic: Searching Algorithms
+Definition: Methods to find items in structures.
+Examples: Linear search (O(n)), Binary search (O(log n) requires sorted input), Hash-based lookup (O(1) average).
+
+-- Topic: Graphs
+Definition: Nodes (vertices) connected by edges; can be directed/undirected, weighted/unweighted.
+Representations: Adjacency matrix (O(V^2) space), adjacency list (O(V + E) space).
+Algorithms: BFS (shortest path in unweighted graphs, O(V+E)), DFS (exploration, topological sort), Dijkstra (single-source shortest paths with nonnegative weights, O(E + V log V) with heap), Bellman-Ford (handles negative weights, O(VE)), A* (heuristic search).
+
+-- Topic: Trees
+Definition: A connected acyclic graph; rooted trees common in CS.
+Types: Binary tree, binary search tree (BST), AVL (self-balancing), red-black tree.
+Operations: Search/insert/delete in BST average O(log n); balancing maintains worst-case guarantees.
+
+-- Topic: Databases
+Definition: Systems for persistent data storage and querying.
+Types: Relational (SQL: structured schema, ACID), NoSQL (key-value, document, wide-column, flexible schema).
+Concepts: Indexes speed queries (cost: extra storage, update overhead), transactions ensure atomicity and consistency.
+
+-- Topic: Operating Systems
+Definition: Software managing hardware and providing services to applications.
+Key concepts: Processes/threads, scheduling, virtual memory, paging, file systems, syscall interface, concurrency primitives (mutexes, semaphores).
+
+-- Topic: Concurrency & Parallelism
+Definition: Concurrency: dealing with multiple things at once conceptually. Parallelism: doing multiple things at once physically.
+Problems: Race conditions, deadlocks, livelocks.
+Tools: Locks, atomic ops, message passing, thread pools, async/await*
+
+-- Topic: Networking
+Definition: Communication between systems over networks.
+Concepts: OSI/TCP-IP layers, IP addressing, TCP vs UDP, sockets, HTTP(S).
+Common ports: 80 (HTTP), 443 (HTTPS), 22 (SSH).
+
+-- Topic: Security
+Definition: Protecting systems and data from harm or unauthorized access.
+Practices: Input validation, principle of least privilege, encryption (TLS for transport, AES for symmetric), secure authentication (multi-factor, salted hashed passwords), keep dependencies updated*
+
+-- Topic: Cryptography
+Definition: Techniques for secure communication.
+Types: Symmetric (AES), asymmetric (RSA, ECC), hashing (SHA-256), digital signatures.
+Use-case: Use TLS for transport; use RSA/ECC for key exchange and signatures*
+
+-- Topic: Machine Learning
+Definition: Algorithms that learn patterns from data.
+Types: Supervised, unsupervised, reinforcement learning.
+Pipeline: Data collection → preprocessing → model selection → training → evaluation → deployment.
+Metrics: Accuracy, precision, recall, F1, ROC-AUC*
+
+-- Topic: APIs
+Definition: Application Programming Interfaces—methods for interacting with software components.
+Types: REST (HTTP, resources, stateless), GraphQL (flexible queries), gRPC (binary, efficient).
+Design: Use clear endpoints, versioning, authentication, rate limiting*
+
+-- Topic: Software Engineering Best Practices
+List:
+
+    Version control (use git).
+    Write tests (unit, integration).
+    Continuous integration/continuous deployment (CI/CD).
+    Code reviews.
+    Modular design and clear interfaces.
+    Document APIs and architecture*
+
+-- Topic: Design Patterns
+Definition: Reusable solutions to common software design problems.
+Examples: Singleton, Factory, Observer, Strategy, Adapter, MVC.
+
+-- Topic: Compilers & Interpreters
+Definition: Compiler: translates high-level code to machine code; interpreter: executes code directly.
+Phases: Lexing, parsing, semantic analysis, optimization, code generation.
+Concepts: AST (abstract syntax tree), JIT (just-in-time compilation).
+
+-- Topic: Programming Languages (paradigms)
+Paradigms: Imperative, functional, object-oriented, procedural, logic programming.
+Features: Static vs dynamic typing, garbage collection vs manual memory, strong vs weak typing.
+
+-- Topic: Testing
+Definition: Verifying program correctness.
+Types: Unit tests, integration tests, end-to-end tests, property-based tests.
+Practice: Aim for fast, deterministic unit tests; isolate external dependencies with mocks.
+
+-- Topic: DevOps
+Definition: Practices to shorten dev→prod cycle and maintain reliability.
+Tools: Containers (Docker), orchestration (Kubernetes), monitoring (Prometheus), logs (ELK stack).
+
+-- Topic: Cloud Computing
+Models: IaaS (infrastructure), PaaS (platform), SaaS (software).
+Providers: Major public clouds offer compute, storage, managed DBs, serverless functions*
+
+-- Topic: File I/O
+Definition: Reading/writing persistent files.
+Modes: Read, write, append, binary/text.
+Advice: Handle errors, close files or use context managers.
+
+-- Topic: Regular Expressions
+Definition: Patterns to match text.
+Examples: \d for digits, ^ and $ anchors, groups and quantifiers.
+Use-case: Validation, search/replace, but prefer parser for complex grammars.
+
+-- Topic: Logging & Monitoring
+Definition: Capture runtime events and metrics.
+Practice: Log levels (DEBUG, INFO, WARN, ERROR), structured logs, alerts on key metrics*
+
+-- Topic: Unicode & Encodings
+Definition: Text encoding standards; UTF-8 common.
+Advice: Store text in UTF-8, be careful with byte vs character counts.
+
+-- Topic: Error Handling
+Approaches: Exceptions, error codes, result types.
+Practice: Fail fast, provide actionable error messages, avoid silent failures*
+
+-- Topic: Performance Profiling
+Definition: Measuring where time/memory is spent.
+Tools: profilers (CPU, memory), sampling, flamegraphs.
+Process: Identify hotspot → optimize algorithm/data-structure → re-measure*
+
+-- Topic: Backup & Recovery
+Practice: Regular backups, test restores, use offsite copies, follow RPO/RTO requirements*
+
+-- Topic: Emerging Topics (brief)
+List: Quantum computing (algorithms like Shor/Grover), federated learning, differential privacy, serverless architectures, WebAssembly*
+
+-- QA Pair: What is a mutex?
+Answer: A mutual exclusion primitive that ensures only one thread accesses a critical section at a time.
+
+-- QA Pair: When to use indexing in a database?
+Answer: Add an index on columns frequently used in WHERE, JOIN, ORDER BY clauses; avoid over-indexing on write-heavy tables*
+
+-- QA Pair: How to choose between SQL and NoSQL?
+Answer: Use SQL for strong relational schemas and ACID needs; use NoSQL for flexible schemas, high write scale, or unstructured data.

@@ -1,0 +1,97 @@
+Networking information below this comment:
+
+Networking — Definition: The practice and technologies for connecting computers and devices to exchange data over wired or wireless links.
+
+OSI Model — Layers: Seven conceptual layers—Physical, Data Link, Network, Transport, Session, Presentation, Application—used to describe network functions and troubleshoot issues.
+
+TCP/IP Model — Overview: Practical protocol suite with layers roughly mapping to Link, Internet, Transport, and Application; core protocols include IP, TCP, UDP, and ICMP.
+
+IP Addressing — IPv4 vs IPv6: IPv4 uses 32-bit addresses (e.g., 192.0.2.1) with limited space; IPv6 uses 128-bit addresses (e.g., 2001:db8::1) to solve address exhaustion and improve routing.
+
+Subnetting — Concept: Dividing an IP network into smaller subnets by borrowing bits from the host portion of the address; use CIDR notation (e.g., 192.0.2.0/24) to express network size.
+
+Network Masks & Prefixes — Purpose: Netmask or prefix length determines which bits identify the network versus the host; /24 = 255.255.255.0 in IPv4.
+
+Default Gateway — Role: The router IP a host uses to send traffic to destinations outside its local subnet.
+
+Routing — Definition: Process of selecting paths for traffic between networks; routes are stored in routing tables and can be learned via static configuration or dynamic protocols.
+
+Static vs Dynamic Routing — Difference: Static routes are manually configured; dynamic routing protocols (OSPF, BGP, EIGRP, RIP) automatically share route information and adapt to topology changes.
+
+BGP (Border Gateway Protocol) — Purpose: Internet-wide path-vector protocol used between autonomous systems (ASes) to exchange routing information and control reachability.
+
+OSPF (Open Shortest Path First) — Type: Interior gateway protocol using link-state routing and Dijkstra’s algorithm to compute shortest paths within an AS.
+
+Switching — Concept: Layer 2 devices forward frames based on MAC addresses; switches operate within a LAN and maintain MAC tables to learn device locations.
+
+VLANs — Purpose: Virtual LANs segment a physical LAN into multiple logical networks to isolate traffic and improve security and management.
+
+Trunking — Function: Carry multiple VLANs over a single link between switches or between a switch and router using tagging protocols such as IEEE 802.1Q.
+
+Ethernet — Overview: Common LAN technology with standards for frame format, speeds (10 Mbps → 100 Gbps+), and physical media (copper, fiber).
+
+MAC Address — Definition: Hardware address burned into NICs, 48-bit in traditional Ethernet, used for local delivery on layer 2.
+
+ARP (Address Resolution Protocol) — Purpose: Maps IPv4 addresses to MAC addresses within a local network; ARP spoofing is a common attack vector.
+
+NAT (Network Address Translation) — Purpose: Translate private internal IP addresses to public IPs for Internet access, conserving IPv4 addresses and providing basic isolation.
+
+PAT (Port Address Translation) — A form of NAT that maps multiple private addresses to a single public IP using different ports.
+
+Firewalls — Role: Enforce network security policies by filtering traffic based on IPs, ports, protocols, or application-level data; can be host-based or network-based.
+
+ACLs (Access Control Lists) — Use: Define permit/deny rules on routers and switches to control traffic flow at the network or interface level.
+
+UDP (User Datagram Protocol) — Characteristics: Connectionless, low-overhead transport protocol without guaranteed delivery or ordering; used for DNS, VoIP, and streaming.
+
+TCP (Transmission Control Protocol) — Characteristics: Reliable, connection-oriented transport with flow control, congestion control, and ordered delivery via sequence numbers and ACKs.
+
+Three-way Handshake — TCP: Connection setup using SYN → SYN/ACK → ACK to establish sequence numbers and window sizes.
+
+Flow & Congestion Control — Mechanisms: TCP flow control (window size) prevents receiver overload; congestion control (e.g., AIMD, slow start, congestion avoidance) prevents network collapse.
+
+Port Numbers — Purpose: Identify application endpoints on a host; well-known ports include 22 (SSH), 80 (HTTP), 443 (HTTPS), 53 (DNS).
+
+DNS (Domain Name System) — Role: Hierarchical name resolution system mapping domain names to IP addresses, with record types like A, AAAA, CNAME, MX, TXT.
+
+DHCP (Dynamic Host Configuration Protocol) — Purpose: Automatically assigns IP addresses, gateways, DNS servers, and other options to hosts on a network.
+
+TLS/SSL — Purpose: Provide encryption, integrity, and authentication for application-layer protocols (e.g., HTTPS) using certificates and public-key cryptography.
+
+VPN (Virtual Private Network) — Function: Securely extend private networks over public infrastructure using encryption and tunneling (e.g., IPsec, OpenVPN, WireGuard).
+
+Load Balancing — Purpose: Distribute traffic across multiple servers to improve availability and performance; methods include round-robin, least-connections, and health-checked pools.
+
+CDN (Content Delivery Network) — Function: Cache and serve content from geographically distributed edge servers to reduce latency and origin load.
+
+Quality of Service (QoS) — Purpose: Prioritize traffic classes and manage bandwidth to meet latency, jitter, and packet-loss requirements for critical applications like VoIP.
+
+MTU (Maximum Transmission Unit) — Definition: Largest packet size a link can carry without fragmentation; mismatched MTUs can cause connectivity issues.
+
+Fragmentation — Cause: When packets exceed MTU of a path, IP fragmentation splits packets; avoid fragmentation by path MTU discovery and appropriate MTU settings.
+
+ICMP (Internet Control Message Protocol) — Use: Send control messages (e.g., ping with Echo Request/Reply, traceroute uses TTL-exceeded); ICMP can be used for diagnostics but may be filtered for security.
+
+Traceroute — Purpose: Diagnose path and latency by sending packets with increasing TTL and recording intermediate hops’ responses.
+
+Wireless Networking — Standards: IEEE 802.11 family (a/b/g/n/ac/ax) define Wi‑Fi PHY and MAC layers; consider channel planning, interference, and security (WPA3).
+
+ARP & DHCP Security Issues — Risks: ARP spoofing and rogue DHCP servers can enable man-in-the-middle attacks; mitigate with static ARP entries, DHCP snooping, and dynamic ARP inspection.
+
+Segmentation & Zero Trust — Approach: Limit lateral movement by segmenting networks and enforcing access controls at identity and workload levels rather than trusting network location.
+
+Network Addressing Plans — Best practice: Use hierarchical, documented addressing with appropriate subnet sizes, avoid overlapping address spaces when connecting networks.
+
+Network Monitoring & Observability — Tools/metrics: SNMP, NetFlow/IPFIX, sFlow, packet capture, latency, jitter, packet loss, throughput, and interface utilization for troubleshooting and capacity planning.
+
+Network Testing Tools — Examples: ping (reachability), traceroute (path), tcpdump/wireshark (packet capture), iperf (throughput), netstat/ss (socket status), nmap (port/service discovery).
+
+High Availability Networking — Techniques: Redundant links, multiple routers/switches, VRRP/HSRP/GLBP for gateway failover, and BGP for multi-homing and failover across providers.
+
+Network Automation — Tools: Use scripting (Python, Ansible, Terraform, Netmiko) and APIs to manage configuration drift, provision networks reproducibly, and enforce policies.
+
+SDN (Software-Defined Networking) — Concept: Separate control plane from data plane to centrally program network behavior through controllers and APIs.
+
+SASE (Secure Access Service Edge) — Concept: Converge networking and network security functions (SD-WAN, secure web gateway, CASB, ZTNA) delivered as a cloud service.
+
+Network Security Best Practices — Summary: Keep firmware/software updated, enforce least privilege for management interfaces, use strong authentication (MFA), segment networks, monitor logs, and back up configurations.
