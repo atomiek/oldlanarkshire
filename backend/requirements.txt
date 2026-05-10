@@ -1,0 +1,19 @@
+# Core
+torch>=1.13.0
+transformers>=4.28.0
+fastapi>=0.95.0
+uvicorn>=0.22.0
+python-multipart>=0.0.6
+jinja2>=3.0.0
+markdownify
+
+# LLM backend
+llama-cpp-python>=0.2.0
+
+# RAG 
+sentence-transformers>=2.6.0   # local embedding model (all-MiniLM-L6-v2, ~90 MB)
+numpy>=1.24.0                  # cosine similarity search
+
+# RAG — document readers 
+pypdf>=3.0.0                   # read .pdf files
+python-docx>=1.0.0             # read .docx files

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Tracker</title>
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+   
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #551c5d;
+            color: #333;
+            padding: 24px;
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 4px;
+            color: #fdb949;
+        }
+
+
+        .subtitle {
+            font-size: 12px;
+            color: #fdb949;
+            margin-bottom: 20px;
+        }
+
+        /* ---- form area ---- */
+        .add-form {
+            background: #fdb949;
+            border: 1px solid #23022e ;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .add-form h2 {
+            font-size: 13px;
+            color: #23022e ;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .form-row .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .form-row label {
+            font-size: 12px;
+            color: #23022e ;
+            font-weight: bold;
+        }
+
+        .form-row input,
+        .form-row select {
+            padding: 7px 9px;
+            border: 1px solid #23022e ;
+            background: #f1edc9 ;
+            color:#23022e;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            width: 100%;
+        }
+
+
+
+
+
+        .form-row input:focus,
+        .form-row select:focus {
+            outline: none;
+            border-color: #4a90d9;
+        }
+
+        .form-row input.err {
+            border-color: #e63946;
+        }
+
+
+
+
+
+        
+        .form-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            border-radius: 4px;
+            padding: 7px 14px;
+            border: none;
+        }
+
+        .btn-addRecord {
+            background: #551c5d ;
+            color: #fdb949  ;
+            border: 1px solid #23022e ;
+        }
+
+        .btn-addRecord:hover { background: #1a1a2e ; }
+
+        .btn-clear {
+            background: #551c5d ;
+            border: 1px solid #23022e ;
+            color: #fdb949 ;
+        }
+
+        .btn-clear:hover { background: #1a1a2e ; }
+
+        /* ---- stats ---- */
+        .stats {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #fdb949 ;
+            border: 1px solid #23022e ;
+            border-radius: 6px;
+            padding: 12px 18px;
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .stat-box .num {
+            font-size: 26px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .stat-box .lbl {
+            font-size: 11px;
+            color: #23022e;
+            margin-top: 3px;
+        }
+
+
+
+        .stat-box.present .num { color: 23022e; }
+        .stat-box.absent .num  { color: 23022e; }
+        .stat-box.late .num    { color: 23022e; }
+        .stat-box.rate .num    { color: 23022e; }
+
+
+
+        /* ---- toolbar ---- */
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 5px 12px;
+            background: #fdb949;
+            border: 1px solid #23022e;
+            color: #555;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+
+        .filter-btn.active {
+            background: #1a1a2e;
+            color: white;
+            border-color: #1a1a2e;
+        }
+
+        #search {
+            padding: 5px 9px;
+            border: 1px solid #ccc
+            border-radius: 3px;
+            font-size: 13px;
+            width: 200px;
+            background: #fdb949;
+        }
+
+        .toolbar-right {
+            margin-left: auto;
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-export {
+            background: #fdb949 ;
+            color: #23022e;
+            padding: 5px 12px;
+            font-size: 12px;
+        }
+
+        .btn-export:hover { background: #b7a18e ; }
+
+        .btn-clear-all {
+            background: #fdb949 ;
+            border: 1px solid #23022e;;
+            color: #23022e;
+            padding: 5px 12px;
+            font-size: 12px;
+        }
+
+        .btn-clear-all:hover { background: #b7a18e ; }
+
+        /* ---- table ---- */
+        .table-wrap {
+            background: #fdb949;
+            border: 1px solid #23022e;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: #fdb949;
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #23022e;
+            border-bottom: 2px solid #23022e;
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        thead th:hover { color: #333; }
+        thead th.sorted { color: #e63946; }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: #23022e; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge.Present { background: #d4edda; color: #2a9d4f; }
+        .badge.Absent  { background: #fde8e8; color: #e63946; }
+        .badge.Late    { background: #fff3cd; color: #b07800; }
+
+        .email-link { color: #4a90d9; text-decoration: none; font-size: 12px; }
+        .email-link:hover { text-decoration: underline; }
+
+        .row-num { color: #bbb; font-size: 12px; }
+
+        .note-cell { color: #999; font-style: italic; font-size: 12px; }
+
+        .action-btn {
+            background: none;
+            border: 1px solid #ddd;
+            color: #aaa;
+            padding: 3px 7px;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-right: 3px;
+        }
+
+        .action-btn:hover { border-color: #4a90d9; color: #4a90d9; }
+        .action-btn.del:hover { border-color: #e63946; color: #e63946; }
+
+        .empty-msg {
+            text-align: center;
+            color: #aaa;
+            padding: 40px;
+            font-style: italic;
+        }
+
+        /* toast - pretty basic */
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        #toast.show { opacity: 1; }
+
+        @media (max-width: 700px) {
+            .form-row .field { min-width: 100%; }
+            .stats { gap: 8px; }
+            .toolbar { gap: 6px; }
+            #search { width: 100%; }
+            .toolbar-right { margin-left: 0; }
+        }
+            
+
+
+
+    </style>
+</head>
+
+ <body>
+
+
+
+<body>
+<h1><a href="/" style="text-decoration: none; color: inherit;">Attenadance Tracker</a></h1>
+ 
+
+
+<p class="subtitle" id="today-label">Loading...</p>
+
+<!-- This is the html code for the form section, where the user puts their data. Any code to do with 'form' will relate to data management in some way.   -->
+
+<div class="add-form">
+    <h2>Add Record</h2>
+    <div class="form-row">
+        <div class="field">
+            <label>Name *</label>
+            <input id="inp-name" type="text" placeholder="Full name" />
+        </div>
+        <div class="field">
+            <label>Date *</label>
+            <input id="inp-date" type="date" />
+        </div>
+        <div class="field">
+            <label>Status</label>
+            <select id="inp-status">
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Late">Late</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Email (optional)</label>
+            <input id="inp-email" type="email" placeholder="name@example.com" />
+        </div>
+        <div class="field">
+            <label>Note (optional)</label>
+            <input id="inp-note" type="text" placeholder="e.g. doctor's note" />
+        </div>
+    </div>
+    <div class="form-btns">
+        <button class="btn-clear" onclick="clearForm()">Clear</button>
+        <button class="btn-addRecord" onclick="addRecord()">Add Record</button>
+    </div>
+</div>
+
+
+
+
+<!-- THis is the area where 'stats' are shown, i.e number of 'present' 'absent' and 'late'.  'cnt' is meant to be short for count -->
+<div class="stats">
+    <div class="stat-box present">
+        <div class="num" id="cnt-present">0</div>
+        <div class="lbl">Present</div>
+    </div>
+    <div class="stat-box absent">
+        <div class="num" id="cnt-absent">0</div>
+        <div class="lbl">Absent</div>
+    </div>
+    <div class="stat-box late">
+        <div class="num" id="cnt-late">0</div>
+        <div class="lbl">Late</div>
+    </div>
+    <div class="stat-box rate">
+        <div class="num" id="cnt-rate">—</div>
+        <div class="lbl">Attendance %</div>
+    </div>
+</div>
+
+
+
+
+<!-- This is the toolbar for filtering information in the table, there's several buttons and a search bar for how to filter the informaton -->
+<div class="toolbar">
+    <button class="filter-btn active" onclick="setFilter('All', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('Present', this)">Present</button>
+    <button class="filter-btn" onclick="setFilter('Absent', this)">Absent</button>
+    <button class="filter-btn" onclick="setFilter('Late', this)">Late</button>
+    <input id="search" type="text" placeholder="Search..." oninput="render()" />
+    <div class="toolbar-right">
+        <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+        <button class="btn-clear-all" onclick="clearAll()">Clear All</button>
+    </div>
+</div>
+
+
+
+
+<!-- This is the html code for the table where you can sort specific fields by althabetical order, -->
+<div class="table-wrap">
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th onclick="sortBy('name')" id="th-name">Name</th>
+            <th onclick="sortBy('email')" id="th-email">Email</th>
+            <th onclick="sortBy('date')" id="th-date">Date</th>
+            <th onclick="sortBy('status')" id="th-status">Status</th>
+            <th>Note</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr><td colspan="7" class="empty-msg">No records yet.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Toast is a nice little guy I appreciate -->
+
+<div id="toast"></div>
+
+
+<!-- Below is the java script  -->
+
+<script>
+
+    // This sets up the way we will store any data that's input
+    // 
+    // If the user wants a more permanent way to store any data they will be able to export the data as a csv if they so desire.
+
+
+    var STORAGE_KEY = 'attendance_records';
+    var records = [];
+    var activeFilter = 'All' ;
+    var sortKey = 'date';
+    var sortDir = -1 ;
+
+
+    // This should get the date and then make it so the subtitles for the page is the current date, if it fails to for whatever reason the previous
+    // html code will make the subtitles say 'loading...' instead as a backup
+    var today = new Date();
+    document.getElementById('today-label').textContent = today.toLocaleDateString('en-GB', {  
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+    document.getElementById('inp-date').value = today.toISOString().split('T')[0]; //This part will make it so the 'date' part of the website will
+    // automatically be set to the current date by default as is probably what they want anyways
+
+
+
+
+    // This will load the stored data from the localStorage of the browser if there was any from a previous session. 
+    try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) records = JSON.parse(saved);
+    } catch (e) {
+        console.error('Could not load records:', e);
+    }
+
+    render();
+
+
+
+    // This function will save any data input to the localStorage system of the browser, if there's a refresh of the browser the data should persist
+    // however if the user uses a seperate browser or go into private modes such as 'incognito' the data will not be available, probably...
+    //It'll also using toast give a heads up if for some reason the data couldn't save to the localStorage, not sure what would cause this other
+    //than an unusual browser setup but it's at least giving you a heads up.
+    function save() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+        } catch (e) {
+            toast('Save failed!', true);
+        }
+    }
+
+
+
+    // This is the function will take the values from each input from the form section and will store them in the appropriate variables, it also
+    // makes sure the inputs are valid to begin with. 
+        function addRecord() {
+        var name = document.getElementById('inp-name').value.trim();
+        var date = document.getElementById('inp-date').value;
+        var status = document.getElementById('inp-status').value;
+        var email = document.getElementById('inp-email').value.trim().toLowerCase();
+        var note = document.getElementById('inp-note').value.trim();
+
+    
+    // This will make the code assume everything is valid unless there's a problem. Without it, it'll assume there is a problem.    
+
+        var ok = true;
+        var nameEl = document.getElementById('inp-name');
+        var emailEl = document.getElementById('inp-email');
+        nameEl.classList.remove('err');
+        emailEl.classList.remove('err');
+
+
+
+        // This makes it so that the name is a required field to be filled out
+        if (!name) { 
+            nameEl.classList.add('err');
+            ok = false;
+        }
+
+
+        // THis makes it so the email is an optional field but that it must include an @ since all emails rely on that.
+
+        if (email && !email.includes('@')) {
+            emailEl.classList.add('err');
+            ok = false;
+        }
+     
+        //This will stop the program continuing if the date is missing or if there's any errors in filling in the form.
+
+        if (!date || !ok) return;
+
+
+        // Builds the record which can then be added to the array.
+
+        var rec = {
+            id: Date.now(), 
+            name: name,
+            date: date,
+            status: status,
+            email: email,
+            note: note
+        };
+
+        // This then adds the record to the array and saves it to the localStorage of the browser.
+
+        records.push(rec);
+        save();
+
+        // MAkes it so the fields are cleared in the form section so the user doesn't need to remove old text to add new data. With the exception for
+        //status and the date, because it's generally more convenient not having to change that for an attendance record.
+        document.getElementById('inp-name').value = '';
+        document.getElementById('inp-email').value = '';
+        document.getElementById('inp-note').value = '';
+
+        render();
+
+
+        //Toast my little guy gives a heads up that the name has been added to the table. 
+        toast('Added: ' + name);
+    }
+
+
+
+    //This removes a record from the table and toast gives a heads up that it has been done, it also gives a confirmation warning as well.
+
+
+    function deleteRecord(id) {
+        if (!confirm('Delete this record?')) return;
+        records = records.filter(function(r) { return r.id !== id; });
+        save();
+        render();
+        toast('Deleted');
+    }
+
+    //THis allows the user to press a button which swaps the status from present to absent and absent to late and late to absent. IT also again uses toast.
+
+
+
+    function toggleStatus(id) {
+        var r = records.find(function(r) { return r.id === id; });
+        if (!r) return;
+        if (r.status === 'Present') r.status = 'Absent';
+        else if (r.status === 'Absent') r.status = 'Late';
+        else r.status = 'Present';
+        save();
+        render();
+        toast('Status updated');
+    }
+
+
+    // This might actually be a bit of a bad idea but it allows you to delete everything from localStorage. YOu get a confirmation warning before
+    // it was easy enough to implement so I did but it might be a bit of a risk.
+
+
+    function clearAll() {
+        if (!confirm('Delete ALL records? This cannot be undone.')) return;
+        records = [];
+        save();
+        render();
+        toast('Cleared');
+    }
+
+
+    //This allows the user to clear the form section of any current text in each of the fields, it's the 'Clear' buttons script.
+
+    function clearForm() {
+        document.getElementById('inp-name').value = '';
+        document.getElementById('inp-email').value = '';
+        document.getElementById('inp-note').value = '';
+        document.getElementById('inp-date').value = today.toISOString().split('T')[0];
+        document.getElementById('inp-status').value = 'Present';
+        document.getElementById('inp-name').classList.remove('err');
+        document.getElementById('inp-email').classList.remove('err');
+    }
+
+
+    // The sort function for the table, if you click any of the tables heads it'll sort it by alphabetical order.
+
+    function sortBy(key) {
+        if (sortKey === key) {
+            sortDir = sortDir * -1;
+        } else {
+            sortKey = key;
+            sortDir = 1;
+        }
+        render();
+    }
+
+    // This is the filter function it allows you to filter by 'All' which shows all records, 'Present', 'Absent' and 'Late'. The last three
+    // will exclusively only show records pertaining to their category.
+
+
+    function setFilter(f, el) {
+        activeFilter = f;
+        document.querySelectorAll('.filter-btn').forEach(function(b) {
+            b.classList.remove('active');
+        });
+        el.classList.add('active');
+        render();
+    }
+
+    //This entire section allows the user to exprt any records stored in the localStorage as a CSV file to the users device, toast will also give 
+    //a heads up if there's nothing to export or tell the user it has 'Exported!' if it can do so successfully.
+
+
+    function exportCSV() {
+        if (records.length === 0) {
+            toast('Nothing to export', true);
+            return;
+        }
+        var lines = ['Name,Email,Date,Status,Note'];
+        records.forEach(function(r) {
+            lines.push([
+                '"' + (r.name || '') + '"',
+                '"' + (r.email || '') + '"',
+                '"' + (r.date || '') + '"',
+                '"' + (r.status || '') + '"',
+                '"' + (r.note || '') + '"'
+            ].join(','));
+        });
+        var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'attendance.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+        toast('Exported!');
+    }
+
+
+    //The renders function is meant to handle presenting the table and updates it after every change.
+
+    function render() {
+        var q = document.getElementById('search').value.toLowerCase();
+
+
+        var list = records.filter(function(r) {
+            if (activeFilter !== 'All' && r.status !== activeFilter) return false;
+            if (q && !r.name.toLowerCase().includes(q) && !(r.email || '').toLowerCase().includes(q)) return false;
+            return true;
+        });
+
+
+        list.sort(function(a, b) {
+            var av = String(a[sortKey] || '').toLowerCase();
+            var bv = String(b[sortKey] || '').toLowerCase();
+            if (av < bv) return -sortDir;
+            if (av > bv) return sortDir;
+            return 0;
+        });
+
+       
+        var presentCount = records.filter(function(r) { return r.status === 'Present'; }).length;
+        var absentCount  = records.filter(function(r) { return r.status === 'Absent'; }).length;
+        var lateCount    = records.filter(function(r) { return r.status === 'Late'; }).length;
+
+        document.getElementById('cnt-present').textContent = presentCount;
+        document.getElementById('cnt-absent').textContent  = absentCount;
+        document.getElementById('cnt-late').textContent    = lateCount;
+
+        //This part of the code calculates the attendance rate.
+
+        var rate = records.length > 0
+            ? Math.round((presentCount / records.length) * 100) + '%'
+            : '—';
+        document.getElementById('cnt-rate').textContent = rate;
+
+        // highlight sorted column header
+        ['name', 'email', 'date', 'status'].forEach(function(k) {
+            var el = document.getElementById('th-' + k);
+            if (el) el.classList.toggle('sorted', sortKey === k);
+        });
+
+        var tbody = document.getElementById('tbody');
+
+        if (list.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">No records found.</td></tr>';
+            return;
+        }
+
+        //This essentially to dumb it down builds everything into a HTML string by going through the filtered and sorted list then makes the table
+        // a HTML table.
+
+
+        var html = '';
+        for (var i = 0; i < list.length; i++) {
+            var r = list[i];
+            var emailCell = r.email
+                ? '<a class="email-link" href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>'
+                : '<span style="color:#ccc">—</span>';
+            var noteCell = r.note
+                ? '<span class="note-cell">' + esc(r.note) + '</span>'
+                : '<span style="color:#ccc">—</span>';
+
+            html += '<tr>';
+            html += '<td class="row-num">' + (i + 1) + '</td>';
+            html += '<td><strong>' + esc(r.name) + '</strong></td>';
+            html += '<td>' + emailCell + '</td>';
+            html += '<td style="color:#777">' + fmtDate(r.date) + '</td>';
+            html += '<td><span class="badge ' + r.status + '">' + r.status + '</span></td>';
+            html += '<td>' + noteCell + '</td>';
+            html += '<td>';
+            html += '<button class="action-btn" onclick="toggleStatus(' + r.id + ')" title="Change status">&#8635;</button>';
+            html += '<button class="action-btn del" onclick="deleteRecord(' + r.id + ')" title="Delete">&#10005;</button>';
+            html += '</td>';
+            html += '</tr>';
+        }
+
+        tbody.innerHTML = html;
+    }
+
+    // This changes the subtitles date to present the user the current date as the current month, useful for guys like me who forget what month is what
+    // number like a dunce.
+
+
+    function fmtDate(d) {
+        if (!d) return '';
+        var parts = d.split('-');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return parseInt(parts[2]) + ' ' + months[parseInt(parts[1]) - 1] + ' ' + parts[0];
+    }
+
+
+    //This prevents a user from pulling executing scripts on the website, it's a basic XSS (cross site scripting) prevention method for our code.
+    //not exactly important for our project but I saw someone else do something similar and thought it was kind of cool to implement.
+    
+
+    function esc(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    //ah toast, very useful for telling the user if there's any errors essentially what it does is pop in the bottom right corner and give the user
+    //information if certain actions or errors take place, useful for me as it allowed me to know that the scripts at least somewhat are working
+    //when writing everything.
+
+    var toastTimer;
+    function toast(msg, isError) {
+        var el = document.getElementById('toast');
+        el.textContent = msg;
+        el.style.background = isError ? '#e63946' : '#333';
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() {
+            el.classList.remove('show');
+        }, 2500);
+    }
+
+    //This makes it so if the user presses enter in any of the input parts of the form it'll be the same as clicking the add record button. 
+
+
+
+    ['inp-name', 'inp-email', 'inp-note'].forEach(function(id) {
+        document.getElementById(id).addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') addRecord();
+        });
+    });
+</script>
+</body>
+</html>

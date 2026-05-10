@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Library</title>
+
+      <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico?v=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="public/favicon.ico?v=1" />
+        <link rel="stylesheet" href="../static/style.css" />
+        <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+</head>
+ 
+<body>
+<div id="container">
+
+
+    <div id="header">
+        <h1> ,,, </h1>
+
+        <div class="Logo">
+             <a href= "/" >
+                <img src="../public/Logo with text yellow.png" alt="Logo">
+            </a>
+        </div>
+    </div>
+
+
+    <div id="content">
+        <h1>Library</h1>
+
+        <div id="room_text">
+            <h3>About the Library</h3>
+            <p>
+                The Old College Lanarkshire library provides students with access to a wide range of academic 
+                resources, including textbooks, digital materials, study spaces, and research support. 
+                The Old College Lanarkshire library supports all subject areas taught at the college.
+            </p>
+
+            <h3>Facilities</h3>
+            <ul>
+                <li>Quiet study areas</li>
+                <li>Computer access</li>
+                <li>Printing and scanning</li>
+                <li>Online journals and e-books</li>
+                <li>Study support and research help</li>
+            </ul>
+
+            <h3>Book Collections</h3>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'One')">Computing & Digital Tech</button>
+  <button class="tablinks" onclick="openCity(event, 'Two')">Business & Management</button>
+  <button class="tablinks" onclick="openCity(event, 'Three')">Health & Social Care</button>
+  <button class="tablinks" onclick="openCity(event, 'Four')">Engineering & Construction</button>
+  <button class="tablinks" onclick="openCity(event, 'Five')">Creative & Performing Arts</button>
+</div>
+
+<!-- Tab content -->
+<div id="One" class="tabcontent">
+  <h4>Computing & Digital Technologies</h4>
+            <ul>
+                <li>“Computer Science: An Overview” – J. Glenn Brookshear</li>
+                <li>“Python Crash Course” – Eric Matthes</li>
+                <li>“Clean Code” – Robert C. Martin</li>
+                <li>“Introduction to Algorithms” – Cormen et al.</li>
+            </ul>
+</div>
+
+<div id="Two" class="tabcontent">
+  <h4>Business & Management</h4>
+            <ul>
+                <li>“Business Studies” – Paul Hoang</li>
+                <li>“Principles of Marketing” – Philip Kotler</li>
+                <li>“Management” – Stephen P. Robbins</li>
+            </ul>
+</div>
+
+<div id="Three" class="tabcontent">
+  <h4>Health & Social Care</h4>
+            <ul>
+                <li>“Health and Social Care Level 3” – Pearson</li>
+                <li>“Communication in Nursing” – Julia Balzer Riley</li>
+                <li>“Anatomy & Physiology” – Elaine N. Marieb</li>
+            </ul>
+</div>
+
+<div id="Four" class="tabcontent">
+  <h4>Engineering & Construction</h4>
+            <ul>
+                <li>“Engineering Fundamentals” – Saeed Moaveni</li>
+                <li>“Construction Technology” – Roy Chudley</li>
+                <li>“Electrical Installation Work” – Brian Scaddan</li>
+            </ul>
+</div>
+
+<div id="Five" class="tabcontent">
+  <h4>Creative & Performing Arts</h4>
+            <ul>
+                <li>“Theatre Studies” – Robert Leach</li>
+                <li>“Art Fundamentals” – Otto Ocvirk</li>
+                <li>“Music Theory in Practice” – Eric Taylor</li>
+            </ul>
+</div>
+
+            <h3>Opening Hours</h3>
+            <p>
+                Monday – Friday: 9:00 AM – 5:00 PM<br>
+                Saturday & Sunday: Closed
+            </p>
+
+            <h3>Contact</h3>
+            <p>
+                Email: library@oldcollegelanarkshire.ac.uk<br>
+                Phone: 01236 123456
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+     /* Style the tab */
+.tab {
+  width: 950px;
+  overflow: hidden;
+  border: 1px solid #ffba49;
+  background-color: #ffba49;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #fff0bc;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #fff0bc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    width: 925px;
+  display: none;
+  padding: 6px 12px;
+  background-color: #23022e;
+  border: 1px solid #23022e;
+  border-top: none;
+} 
+</style>
+
+<script>
+function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+} 
+</script>
+</body>
+</html>

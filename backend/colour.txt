@@ -1,0 +1,4 @@
+#551c5d - Light purple
+#23022e - Dark purple text colour
+#fdb949 - Orange second menu colour
+#b7a18e - Light text colour
