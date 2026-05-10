@@ -15,11 +15,11 @@ import logging
 import json
 import markdownify as md
 
-# Configure logging
+# logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Import llama.cpp bindings
+# Import llama.cpp
 try:
     from llama_cpp import Llama
     llama_available = True
@@ -28,13 +28,13 @@ except ImportError as e:
     logger.error(f"Failed to import llama_cpp: {e}")
     llama_available = False
 
-# Import RAG pipeline
+# Import RAG
 from rag import init_rag, retrieve, build_context_block, reload_index, index_stats
 
-# Initialize FastAPI app
+# Initialize FastAPI
 app = FastAPI(title="Llama.cpp API", version="1.0.0")
 
-# Add CORS middleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -43,7 +43,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global model instance
+# Global instance
 llm = None
 
 
@@ -96,7 +96,7 @@ def prompt_choice(files):
 
 
 def find_model_file():
-    """Find the model file in the models directory"""
+    """Find the file in the models directory"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     models_dir = os.path.join(script_dir, "models")
 
@@ -124,7 +124,7 @@ def find_model_file():
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize the LLM model and RAG pipeline on startup"""
+    """Initialize the LLM model and RAG"""
     global llm
 
     # ── RAG ───────────────────────────────
@@ -205,7 +205,7 @@ async def startup_event():
         llm = None
 
 
-# ===== ROUTES =================================================================
+# ===== ROUTES ========================
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_chat():
@@ -222,7 +222,7 @@ async def serve_chat():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint — includes RAG status"""
+    """Health check endpoint includes RAG"""
     model_path = find_model_file()
     return {
         "status": "healthy",
@@ -237,7 +237,7 @@ async def health_check():
 
 @app.post("/rag/reload")
 async def rag_reload():
-    """Re-index the information directory without restarting the server."""
+    """index the information directory without restarting"""
     ok, message = reload_index()
     return JSONResponse(
         status_code=200 if ok else 500,
@@ -247,18 +247,18 @@ async def rag_reload():
 
 @app.get("/rag/status")
 async def rag_status():
-    """Return current RAG index statistics."""
+    """Return current RAG index stats."""
     return index_stats()
 
 
 @app.post("/chat", response_class=HTMLResponse)
 async def chat(prompt: str = Form(...)):
-    """Handle chat requests from HTMX — with RAG context injection."""
+    """Handle chat requests from HTMX with RAG context."""
     if not llm:
         raise HTTPException(status_code=503, detail="Model not loaded")
 
     try:
-        # ── Retrieve relevant context ─────────────────────────────────────
+        # ── Retrieve relevant context ──────────────────
         chunks = retrieve(prompt, top_k=4)
         context_block = build_context_block(chunks)
 
@@ -317,7 +317,7 @@ async def chat(prompt: str = Form(...)):
 
             
 
-        # ── Render HTML ────────────────────────────────
+        # ── Render HTML ─────────────
         template_str = """<div class="message user-message">
     <div class="message-content">{{ prompt }}</div>
 </div>
@@ -409,7 +409,7 @@ async def completions(request: CompletionRequest):
 
 @app.get("/models")
 async def list_models():
-    """List available models"""
+    """List models"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     models_dir = os.path.join(script_dir, "models")
 
@@ -421,7 +421,7 @@ async def list_models():
     return {"models": gguf_files}
 
 
-# ===== FILES ===========================================================
+# ===== FILES ============================
 script_dir = os.path.dirname(os.path.abspath(__file__))
 static_dir = os.path.join(script_dir, "static")
 public_dir = os.path.join(script_dir, "public")

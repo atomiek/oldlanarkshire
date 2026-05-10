@@ -131,7 +131,7 @@
 
         .btn-clear:hover { background: #1a1a2e ; }
 
-        /* ---- stats ---- */
+
         .stats {
             display: flex;
             gap: 12px;
@@ -170,7 +170,7 @@
 
 
 
-        /* ---- toolbar ---- */
+
         .toolbar {
             display: flex;
             gap: 8px;
@@ -308,7 +308,7 @@
             font-style: italic;
         }
 
-        /* toast - pretty basic */
+      
         #toast {
             position: fixed;
             bottom: 20px;
@@ -582,7 +582,7 @@
 
     function deleteRecord(id) {
         if (!confirm('Delete this record?')) return;
-        records = records.filter(function(r) { return r.id !== id; });
+        records = records.filter(function(record) { return record.id !== id; });
         save();
         render();
         toast('Deleted');
@@ -593,11 +593,11 @@
 
 
     function toggleStatus(id) {
-        var r = records.find(function(r) { return r.id === id; });
-        if (!r) return;
-        if (r.status === 'Present') r.status = 'Absent';
-        else if (r.status === 'Absent') r.status = 'Late';
-        else r.status = 'Present';
+        var record = records.find(function(record) { return record.id === id; });
+        if (!record) return;
+        if (record.status === 'Present') record.status = 'Absent';
+        else if (record.status === 'Absent') record.status = 'Late';
+        else record.status = 'Present';
         save();
         render();
         toast('Status updated');
@@ -665,13 +665,13 @@
             return;
         }
         var lines = ['Name,Email,Date,Status,Note'];
-        records.forEach(function(r) {
+        records.forEach(function(record) {
             lines.push([
-                '"' + (r.name || '') + '"',
-                '"' + (r.email || '') + '"',
-                '"' + (r.date || '') + '"',
-                '"' + (r.status || '') + '"',
-                '"' + (r.note || '') + '"'
+                '"' + (record.name || '') + '"',
+                '"' + (record.email || '') + '"',
+                '"' + (record.date || '') + '"',
+                '"' + (record.status || '') + '"',
+                '"' + (record.note || '') + '"'
             ].join(','));
         });
         var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
@@ -688,12 +688,12 @@
     //The renders function is meant to handle presenting the table and updates it after every change.
 
     function render() {
-        var q = document.getElementById('search').value.toLowerCase();
+        var searchQuery = document.getElementById('search').value.toLowerCase();
 
 
-        var list = records.filter(function(r) {
-            if (activeFilter !== 'All' && r.status !== activeFilter) return false;
-            if (q && !r.name.toLowerCase().includes(q) && !(r.email || '').toLowerCase().includes(q)) return false;
+        var list = records.filter(function(record) {
+            if (activeFilter !== 'All' && record.status !== activeFilter) return false;
+            if (searchQuery && !record.name.toLowerCase().includes(searchQuery) && !(record.email || '').toLowerCase().includes(searchQuery)) return false;
             return true;
         });
 
@@ -707,9 +707,9 @@
         });
 
        
-        var presentCount = records.filter(function(r) { return r.status === 'Present'; }).length;
-        var absentCount  = records.filter(function(r) { return r.status === 'Absent'; }).length;
-        var lateCount    = records.filter(function(r) { return r.status === 'Late'; }).length;
+        var presentCount = records.filter(function(record) { return record.status === 'Present'; }).length;
+        var absentCount  = records.filter(function(record) { return record.status === 'Absent'; }).length;
+        var lateCount    = records.filter(function(record) { return record.status === 'Late'; }).length;
 
         document.getElementById('cnt-present').textContent = presentCount;
         document.getElementById('cnt-absent').textContent  = absentCount;
@@ -735,35 +735,35 @@
             return;
         }
 
-        //This essentially to dumb it down builds everything into a HTML string by going through the filtered and sorted list then makes the table
-        // a HTML table.
+        //
+        // 
 
 
-        var html = '';
-        for (var i = 0; i < list.length; i++) {
-            var r = list[i];
-            var emailCell = r.email
-                ? '<a class="email-link" href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>'
+        var tableRows = '';
+        for (var recordIndex = 0; recordIndex < list.length; recordIndex++) {
+            var record = list[recordIndex];
+            var emailCell = record.email
+                ? '<a class="email-link" href="mailto:' + esc(record.email) + '">' + esc(record.email) + '</a>'
                 : '<span style="color:#ccc">—</span>';
-            var noteCell = r.note
-                ? '<span class="note-cell">' + esc(r.note) + '</span>'
+            var noteCell = record.note
+                ? '<span class="note-cell">' + esc(record.note) + '</span>'
                 : '<span style="color:#ccc">—</span>';
 
-            html += '<tr>';
-            html += '<td class="row-num">' + (i + 1) + '</td>';
-            html += '<td><strong>' + esc(r.name) + '</strong></td>';
-            html += '<td>' + emailCell + '</td>';
-            html += '<td style="color:#777">' + fmtDate(r.date) + '</td>';
-            html += '<td><span class="badge ' + r.status + '">' + r.status + '</span></td>';
-            html += '<td>' + noteCell + '</td>';
-            html += '<td>';
-            html += '<button class="action-btn" onclick="toggleStatus(' + r.id + ')" title="Change status">&#8635;</button>';
-            html += '<button class="action-btn del" onclick="deleteRecord(' + r.id + ')" title="Delete">&#10005;</button>';
-            html += '</td>';
-            html += '</tr>';
+            tableRows += '<tr>';
+            tableRows += '<td class="row-num">' + (recordIndex + 1) + '</td>';
+            tableRows += '<td><strong>' + esc(record.name) + '</strong></td>';
+            tableRows += '<td>' + emailCell + '</td>';
+            tableRows += '<td style="color:#777">' + fmtDate(record.date) + '</td>';
+            tableRows += '<td><span class="badge ' + record.status + '">' + record.status + '</span></td>';
+            tableRows += '<td>' + noteCell + '</td>';
+            tableRows += '<td>';
+            tableRows += '<button class="action-btn" onclick="toggleStatus(' + record.id + ')" title="Change status">&#8635;</button>';
+            tableRows += '<button class="action-btn del" onclick="deleteRecord(' + record.id + ')" title="Delete">&#10005;</button>';
+            tableRows += '</td>';
+            tableRows += '</tr>';
         }
 
-        tbody.innerHTML = html;
+        tbody.innerHTML = tableRows;
     }
 
     // This changes the subtitles date to present the user the current date as the current month, useful for guys like me who forget what month is what

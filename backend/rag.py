@@ -3,7 +3,7 @@ Loads documents from backend/information/, chunks and embeds them,then retrieves
 
 file types: .txt  .md  .pdf  .docx
 Embeddings:           sentence-transformers (all-MiniLM-L6-v2, runs fully local/CPU)
-uses cosine similarity via numpy, negating external db requirements e.g. chromaDB
+uses similarity numpy, negating external db requirements e.g. chromaDB
 """
 
 import os
@@ -20,8 +20,7 @@ try:
     ST_AVAILABLE = True
 except ImportError:
     ST_AVAILABLE = False
-    logger.warning("sentence-transformers not installed — RAG disabled. "
-                   "Run: pip install sentence-transformers")
+    logger.warning("sentence-transformers not installed: RAG disabled. Run: pip install sentence-transformers")
 
 try:
     import pypdf
@@ -40,14 +39,14 @@ except ImportError:
 @dataclass
 class Chunk:
     text: str
-    source: str          # filename
+    source: str          # file
     chunk_index: int
 
 
 @dataclass
 class VectorStore:
     chunks: List[Chunk] = field(default_factory=list)
-    embeddings: np.ndarray = None   # shape (N, D)
+    embeddings: np.ndarray = None
 
 
 
@@ -60,7 +59,7 @@ _information_dir: str = ""
 def init_rag(information_dir: str) -> bool:
     """
     Loads the embedding model and index all documents in backend/information.
-    Returns True if RAG is ready, False if it could not initialise.
+    Returns True if RAG is ready, False if not.
     """
     global _embed_model, _information_dir
 
@@ -167,8 +166,7 @@ def _read_text(path: str) -> str:
 
 def _read_pdf(path: str) -> str:
     if not PYPDF_AVAILABLE:
-        logger.warning("pypdf not installed — skipping PDF. "
-                       "Run: pip install pypdf")
+        logger.warning("pypdf not installed — skipping  PDF.Run: pip install pypdf ")
         return ""
     reader = pypdf.PdfReader(path)
     pages = [page.extract_text() or "" for page in reader.pages]
@@ -177,8 +175,7 @@ def _read_pdf(path: str) -> str:
 
 def _read_docx(path: str) -> str:
     if not DOCX_AVAILABLE:
-        logger.warning("python-docx not installed — skipping .docx. "
-                       "Run: pip install python-docx")
+        logger.warning("python-docx not installed — skipping .docx.  Run: pip install python-docx")
         return ""
     doc = DocxDocument(path)
     return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
@@ -190,7 +187,7 @@ CHUNK_OVERLAP = 200   # characters
 
 
 def _chunk_text(text: str, source: str) -> List[Chunk]:
-    # Normalise whitespace
+    # whitespace
     text = re.sub(r"\n{3,}", "\n\n", text).strip()
     chunks = []
     start = 0
@@ -210,7 +207,7 @@ def _chunk_text(text: str, source: str) -> List[Chunk]:
 def retrieve(query: str, top_k: int = 4) -> List[Chunk]:
     """
     Return the top_K (most probable) most relevant chunks for query.
-    Returns an empty list if RAG is not ready or the store is empty.
+    Returns an empty list if RAG isnt ready or the store is empty.
     """
     if _embed_model is None or _store.embeddings is None or len(_store.chunks) == 0:
         return []
